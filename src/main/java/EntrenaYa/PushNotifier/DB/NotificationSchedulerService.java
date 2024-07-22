@@ -20,7 +20,6 @@ public class NotificationSchedulerService {
 
     @Scheduled(cron = "0 * * * * *") // Ejecuta cada minuto
     public void checkAndSendNotifications() {
-       log.info("enviando noti");
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime endTime = now.plusMinutes(1);
 

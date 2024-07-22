@@ -20,4 +20,7 @@ public class Notification {
     private String expoToken;
     @Column(name = "datetime")
     private LocalDateTime dateTime;
+    @Column(name = "multipleusers")
+    private boolean multipleUsers;
+    private Long user;
 }

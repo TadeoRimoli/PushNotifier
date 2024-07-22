@@ -1,5 +1,6 @@
 package EntrenaYa.PushNotifier.DB;
 
+import EntrenaYa.PushNotifier.DTOs.NotificationDTO;
 import EntrenaYa.PushNotifier.Entites.notification.Account;
 import EntrenaYa.PushNotifier.Entites.notification.Notification;
 import EntrenaYa.PushNotifier.Entites.notification.RefreshToken;
@@ -105,16 +106,14 @@ public class GeneralDAO {
         }
     }
 
-
-
-    public Notification saveNotification(Notification notification) {
-        // Si el ID es nulo, el objeto es nuevo y se debe persistir
-        if (notification.getId() == 0) {
-            entityManager.persist(notification);
-            return notification;
-        } else {
-            // Si el ID no es nulo, se debe actualizar
-            return entityManager.merge(notification);
-        }
+    public Notification saveNotification(NotificationDTO notificationDTO) {
+        Notification notification = new Notification();
+        notification.setExpoToken(notificationDTO.getExpoToken());
+        notification.setTitle(notificationDTO.getTitle());
+        notification.setMessage(notificationDTO.getMessage());
+        notification.setMultipleUsers(notificationDTO.isMultipleUsers());
+        notification.setDateTime(notificationDTO.getDateTime());
+        entityManager.persist(notification);
+        return notification;
     }
 }

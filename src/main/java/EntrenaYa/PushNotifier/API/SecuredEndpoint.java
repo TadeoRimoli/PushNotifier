@@ -1,6 +1,7 @@
 package EntrenaYa.PushNotifier.API;
 
 import EntrenaYa.PushNotifier.DB.GeneralDAO;
+import EntrenaYa.PushNotifier.DTOs.NotificationDTO;
 import EntrenaYa.PushNotifier.DTOs.ResponseDTO;
 import EntrenaYa.PushNotifier.Entites.notification.Notification;
 import EntrenaYa.PushNotifier.NotificationService;
@@ -10,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -23,19 +26,32 @@ public class SecuredEndpoint {
     private GeneralDAO generalDAO;
 
     @PostMapping("/saveNotification")
-    public ResponseEntity<ResponseDTO> createNotification(@RequestBody Notification notification) {
+    public ResponseEntity<ResponseDTO> createNotification(@RequestBody NotificationDTO notification) {
 
-
-        // Persistir la notificación en la base de datos
         Notification savedNotification = generalDAO.saveNotification(notification);
-        // Calcular el delay en milisegundos
 
-        // Crear y devolver la respuesta
         ResponseDTO responseDTO = ResponseDTO.builder()
                 .success(true)
                 .errormessage("")
                 .id(savedNotification.getId())
-                .object(savedNotification)
+                .build();
+
+        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/saveNotifications")
+    public ResponseEntity<ResponseDTO> createNotifications(@RequestBody List<NotificationDTO> notifications) {
+        List<Notification> savedNotifications = new ArrayList<>();
+
+        for (NotificationDTO notification : notifications) {
+            Notification savedNotification = generalDAO.saveNotification(notification);
+            savedNotifications.add(savedNotification);
+        }
+
+        ResponseDTO responseDTO = ResponseDTO.builder()
+                .success(true)
+                .errormessage("")
+                .object(savedNotifications)
                 .build();
 
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
