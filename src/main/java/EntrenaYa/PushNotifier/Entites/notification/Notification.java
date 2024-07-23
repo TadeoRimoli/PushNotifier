@@ -28,5 +28,7 @@ public class Notification {
     @JoinColumn(name = "account")
     private Account account;
     private Long entity;
+    @Column(name = "gettokensurl")
+    private String getTokensUrl;
 
 }

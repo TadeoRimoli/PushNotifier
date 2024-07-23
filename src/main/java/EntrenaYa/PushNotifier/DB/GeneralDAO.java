@@ -114,6 +114,7 @@ public class GeneralDAO {
         notification.setUser(notificationDTO.getUser());
         notification.setEvent(notificationDTO.getEvent());
         notification.setEntity(notificationDTO.getEntity());
+        notification.setGetTokensUrl(notificationDTO.getGetTokensUrl());
         notification.setMultipleUsers(notificationDTO.isMultipleUsers());
         notification.setDateTime(notificationDTO.getDateTime());
         notification.setAccount(entityManager.find(Account.class,account));
