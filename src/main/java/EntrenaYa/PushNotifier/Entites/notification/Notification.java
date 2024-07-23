@@ -23,4 +23,10 @@ public class Notification {
     @Column(name = "multipleusers")
     private boolean multipleUsers;
     private Long user;
+    private Long event;
+    @ManyToOne
+    @JoinColumn(name = "account")
+    private Account account;
+    private Long entity;
+
 }

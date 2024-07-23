@@ -13,4 +13,7 @@ public class NotificationDTO {
     private LocalDateTime dateTime;
     private boolean multipleUsers;
     private Long user;
+    private Long event;
+    private Long entity;
+
 }

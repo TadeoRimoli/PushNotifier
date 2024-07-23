@@ -61,20 +61,20 @@ public class JwtTokenUtils {
                 .build().parseClaimsJws(token)
                 .getBody();
     }
-    public String generateToken(String username,Long userId) {
+    public String generateToken(String username,Long account) {
 
         Claims claims = Jwts.claims();
-        claims.put("userId",String.valueOf(userId));
+        claims.put("account",String.valueOf(account));
 //        claims.put("profileId",String.valueOf(profileId));
         claims.put(TOKEN_CLAIM_TYPE, EToken.NORMAL);
         Key key = Keys.hmacShaKeyFor(secret.getBytes());
 
         return _generateToken(username, claims, key,jwtTokenValiditySeconds);
     }
-    public String generateRefreshToken(String username,Long userId) {
+    public String generateRefreshToken(String username,Long account) {
 
         Claims claims = Jwts.claims();
-        claims.put("userId",String.valueOf(userId));
+        claims.put("account",String.valueOf(account));
 //        claims.put("profileId",String.valueOf(profileId));
         claims.put(TOKEN_CLAIM_TYPE, EToken.REFRESH);
 //        claims.put("token-uuid", UUID.randomUUID().toString());
@@ -110,11 +110,11 @@ public class JwtTokenUtils {
         return false;
     }
 
-    public String getUserIdFromToken(String token) {
+    public String getAccountIdFromToken(String token) {
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
         }
-        return getClaimFromToken(token, "userId");
+        return getClaimFromToken(token, "account");
     }
 
     public LocalDateTime getRefreshTokenExpiration(){

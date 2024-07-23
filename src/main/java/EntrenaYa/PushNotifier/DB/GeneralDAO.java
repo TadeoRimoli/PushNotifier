@@ -105,15 +105,63 @@ public class GeneralDAO {
             entityManager.remove(refreshToken);
         }
     }
-
-    public Notification saveNotification(NotificationDTO notificationDTO) {
+    @Transactional
+    public Notification saveNotification(long account,NotificationDTO notificationDTO) {
         Notification notification = new Notification();
         notification.setExpoToken(notificationDTO.getExpoToken());
         notification.setTitle(notificationDTO.getTitle());
         notification.setMessage(notificationDTO.getMessage());
+        notification.setUser(notificationDTO.getUser());
+        notification.setEvent(notificationDTO.getEvent());
+        notification.setEntity(notificationDTO.getEntity());
         notification.setMultipleUsers(notificationDTO.isMultipleUsers());
         notification.setDateTime(notificationDTO.getDateTime());
+        notification.setAccount(entityManager.find(Account.class,account));
         entityManager.persist(notification);
         return notification;
     }
+
+    @Transactional
+    public void deleteByEvent(long accountId, long eventId) {
+        Account account = entityManager.find(Account.class, accountId);
+        if (account != null) {
+            int deletedCount = entityManager.createQuery("DELETE FROM Notification n WHERE n.event = :eventId AND n.account = :account")
+                    .setParameter("eventId", eventId)
+                    .setParameter("account", account)
+                    .executeUpdate();
+            System.out.println("Number of notifications deleted by event: " + deletedCount);
+        } else {
+            System.out.println("Account not found for ID: " + accountId);
+        }
+    }
+    @Transactional
+    public void deleteByEntity(long accountId, long entityId) {
+        Account account = entityManager.find(Account.class, accountId);
+        if (account != null) {
+            int deletedCount = entityManager.createQuery("DELETE FROM Notification n WHERE n.entity = :entityId AND n.account = :account")
+                    .setParameter("entityId", entityId)
+                    .setParameter("account", account)
+                    .executeUpdate();
+            System.out.println("Number of notifications deleted by entity: " + deletedCount);
+        } else {
+            System.out.println("Account not found for ID: " + accountId);
+        }
+    }
+
+    @Transactional
+    public void deleteByUser(long accountId, long userId) {
+        Account account = entityManager.find(Account.class, accountId);
+        if (account != null) {
+            int deletedCount = entityManager.createQuery("DELETE FROM Notification n WHERE n.user = :userId AND n.account = :account")
+                    .setParameter("userId", userId)
+                    .setParameter("account", account)
+                    .executeUpdate();
+            System.out.println("Number of notifications deleted by user: " + deletedCount);
+        } else {
+            System.out.println("Account not found for ID: " + accountId);
+        }
+    }
+
+
+
 }
