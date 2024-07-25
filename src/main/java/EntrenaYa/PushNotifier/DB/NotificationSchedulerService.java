@@ -27,7 +27,7 @@ public class NotificationSchedulerService {
         List<Notification> notificationsToSend = notificationRepository.findByDateTimeBetween(now, endTime);
 
         for (Notification notification : notificationsToSend) {
-            if(notification.getGetTokensUrl().isEmpty())
+            if(notification.getGetTokensUrl()==null || notification.getGetTokensUrl().isEmpty())
                 sendPushNotification(notification);
             else{
                 List<String> expoPushTokens = getTokensFromUrl(notification.getGetTokensUrl()+"?groupId="+notification.getUser());

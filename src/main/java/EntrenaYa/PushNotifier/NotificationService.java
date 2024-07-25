@@ -29,6 +29,7 @@ public class NotificationService {
         headers.set("Content-Type", "application/json");
 
         String payload = String.format("{\"to\":\"%s\",\"title\":\"%s\",\"body\":\"%s\"}", expoToken, title, message);
+
         HttpEntity<String> request = new HttpEntity<>(payload, headers);
 
         int maxAttempts = 3;
