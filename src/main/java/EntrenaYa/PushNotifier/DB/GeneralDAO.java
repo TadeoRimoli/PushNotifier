@@ -108,7 +108,6 @@ public class GeneralDAO {
     @Transactional
     public Notification saveNotification(long account,NotificationDTO notificationDTO) {
         Notification notification = new Notification();
-        notification.setExpoToken(notificationDTO.getExpoToken());
         notification.setTitle(notificationDTO.getTitle());
         notification.setMessage(notificationDTO.getMessage());
         notification.setUser(notificationDTO.getUser());

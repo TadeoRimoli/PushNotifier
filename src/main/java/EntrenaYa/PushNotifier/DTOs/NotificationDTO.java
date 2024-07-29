@@ -9,11 +9,9 @@ public class NotificationDTO {
     private long id;
     private String title;
     private String message;
-    private String expoToken;
     private LocalDateTime dateTime;
     private boolean multipleUsers;
     private String getTokensUrl;
-
     private Long user;
     private Long event;
     private Long entity;
